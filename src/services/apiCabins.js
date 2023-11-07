@@ -8,6 +8,17 @@ export async function getCabins() {
   }
   return data;
 }
+export async function createCabin(newCabin) {
+  const { data, error } = await supabase
+    .from("Cabins")
+    .insert([newCabin])
+    .select();
+  if (error) {
+    console.error("Cabins could not be created");
+    throw new Error("Cabins could not be loaded");
+  }
+  return data;
+}
 export async function deleteCabin(id) {
   const { data, error } = await supabase.from("Cabins").delete().eq("id", id);
   if (error) {
