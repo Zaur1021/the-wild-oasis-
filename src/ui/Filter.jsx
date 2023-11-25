@@ -1,4 +1,6 @@
+import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
+import SortBy from "./SortBy";
 
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
@@ -33,3 +35,44 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Filter({ filterField, options, toShow }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
+
+  function handleClick(value) {
+    searchParams.set(filterField, value);
+    if (searchParams.get("page")) searchParams.set("page", 1);
+    setSearchParams(searchParams);
+  }
+  return (
+    <StyledFilter>
+      {options.map((option) => (
+        <FilterButton
+          key={option.value}
+          onClick={() => handleClick(option.value)}
+          disabled={option.value === currentFilter}
+        >
+          {option.label}
+        </FilterButton>
+      ))}
+      {toShow && (
+        <SortBy
+          options={[
+            { value: "name-asc", label: "Sort by name (A-Z)" },
+            { value: "name-desc", label: "Sort by name (Z-A)" },
+            { value: "regularPrice-asc", label: "Sort by price(low first)" },
+            { value: "regularPrice-desc", label: "Sort by price(hight first)" },
+            { value: "maxCapacity-asc", label: "Sort by capacity(low first)" },
+            {
+              value: "maxCapacity-desc",
+              label: "Sort by capacity(high first)",
+            },
+          ]}
+        />
+      )}
+    </StyledFilter>
+  );
+}
+
+export default Filter;

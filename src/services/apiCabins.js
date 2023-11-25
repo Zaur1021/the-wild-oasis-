@@ -1,7 +1,7 @@
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getCabins() {
-  const { data, error } = await supabase.from("Cabins").select("*");
+  const { data, error } = await supabase.from("cabins").select("*");
   if (error) {
     console.error("Cabins could not be loaded");
     throw new Error("Cabins could not be loaded");
@@ -17,7 +17,7 @@ export async function createEditCabin(newCabin, id) {
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   //Create/Edit cabin
-  let query = supabase.from("Cabins");
+  let query = supabase.from("cabins");
   if (!id) {
     console.log(imageName);
     query = query.insert([{ ...newCabin, image: imagePath }]);
@@ -46,7 +46,7 @@ export async function createEditCabin(newCabin, id) {
   return data;
 }
 export async function deleteCabin(id) {
-  const { data, error } = await supabase.from("Cabins").delete().eq("id", id);
+  const { data, error } = await supabase.from("cabins").delete().eq("id", id);
 
   if (error) {
     console.error("Cabins could not be deleted");
