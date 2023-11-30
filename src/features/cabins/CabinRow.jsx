@@ -39,7 +39,7 @@ const Discount = styled.div`
 `;
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
-  const { isCreating, createCabin } = useCreateCabin();
+  const { createCabin } = useCreateCabin();
   function handleDuplicate() {
     createCabin({
       name: `Copy of ${name}`,
